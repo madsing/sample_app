@@ -10,9 +10,11 @@ class UsersController < ApplicationController
   def create
   	@user = User.new(user_params) #dwasdsada
       if @user.save
+          log_in @user
           flash[:success] = "Welcome to your profile - Account succesfully created!"
       		redirect_to @user # Handle a succesfull save.
                             # redirect_to user_url(@user) is the same
+
     	else
     		render 'new'
 	  end
