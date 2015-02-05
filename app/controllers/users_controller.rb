@@ -24,10 +24,16 @@ class UsersController < ApplicationController
   def create
   	@user = User.new(user_params) #dwasdsada
       if @user.save
-          log_in @user
-          flash[:success] = "Welcome to your profile - Account succesfully created!"
-      		redirect_to @user # Handle a succesfull save.
-                            # redirect_to user_url(@user) is the same
+        @user.send_activation_email
+        #UserMailer.account_activation(@user).deliver_now
+        flash[:info] = "Please activate your account with the email recieved"
+        redirect_to root_url
+
+        #Old Code before activation email
+        #log_in @user
+        #flash[:success] = "Welcome to your profile - Account succesfully created!"
+        #redirect_to @user # Handle a succesfull save.
+                          # redirect_to user_url(@user) is the same
 
     	else
     		render 'new'
